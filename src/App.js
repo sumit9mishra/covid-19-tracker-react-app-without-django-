@@ -1,3 +1,4 @@
+import InfoBox from './InfoBox'
 import {
   MenuItem,
   FormControl,
@@ -13,6 +14,7 @@ import React,{useState,useEffect} from "react";
 
 function App() {
   const [countries,setCountries]= useState([]);
+  const [country,setCountry] = useState('worldwide')
 
   useEffect(() => {
     const getCountriesData = async () => {
@@ -30,6 +32,11 @@ function App() {
     };
     getCountriesData();
   }, []);
+  const onCountryChange = (event)=>{
+    const countryCode = event.target.value;
+    console.log(`hello ${countryCode}`)
+    setCountry(countryCode);
+  }
   return (
     <div className="app">
       <div className="app__header">
@@ -37,7 +44,9 @@ function App() {
         <FormControl className="app__dropdown">
           <Select
             variant="outlined"
-            value="sumit">
+            onChange={onCountryChange}
+            value={country}>
+              <MenuItem value = "worldwide">WorldWide</MenuItem>
             {
               countries.map((country)=>(
                 <MenuItem value ={country.value}>{country.name}</MenuItem>
@@ -46,12 +55,18 @@ function App() {
           </Select>
         </FormControl>
       </div>
-     
+      <div className="app__stats">
+        <InfoBox title = "coronavirus cases"/>
 
-     
+        
+        <InfoBox title="Recovered" />
 
-      
 
+        <InfoBox title="Deaths" />
+
+
+
+      </div>      
     </div>
   );
 }
